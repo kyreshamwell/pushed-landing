@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme {
+  /* GitHub's contribution greens, the same five levels the widget draws. */
+  --color-level-0: #15181d;
+  --color-level-1: #0e4429;
+  --color-level-2: #006d32;
+  --color-level-3: #26a641;
+  --color-level-4: #39d353;
+
+  --color-ink: #f2f4f6;
+  --color-ink-dim: #99a1ad;
+  --color-ink-faint: #5f6772;
+
+  --color-surface: #07080a;
+  --color-surface-raised: #0e1014;
+  --color-edge: #1b1f26;
+  --color-hairline: #14171c;
+
+  --font-display: var(--font-display-face), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-face), ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    /* A faint cell grid under everything, so the page is built on the same
+       squares the widget is. */
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+    background-size: 13px 13px;
+  }
+
+  ::selection {
+    background-color: rgba(57, 211, 83, 0.3);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-level-4);
+    outline-offset: 3px;
+  }
+}
+
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+/* A hairline that fades out at both ends, used to divide sections. */
+@utility rule {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-edge) 12%,
+    var(--color-edge) 88%,
+    transparent
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
