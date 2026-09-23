@@ -68,7 +68,7 @@ export const features: Feature[] = [
   },
   {
     title: "Reminders that pay attention",
-    body: "Most reminder apps nag you on a timer. Pushed only speaks up when there is a reason: a midday heads-up if you have not pushed, an evening warning when a streak is genuinely on the line, and nothing at all on days you have already committed. Reminders stay off until you turn them on, you set the times yourself, and one switch turns them all back off.",
+    body: "Most reminder apps nag you on a timer. Pushed only speaks up when there is a reason: a midday heads-up if you have not pushed, an evening warning when a streak is genuinely on the line, and nothing at all on days you have already committed. Notifications stay off until you switch them on, and the same switch turns every one of them off again. You pick the reminder times yourself.",
   },
   {
     title: "No servers, no account, no tracking",
