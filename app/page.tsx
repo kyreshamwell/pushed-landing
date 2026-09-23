@@ -2,7 +2,6 @@ import { AppStoreButton } from "@/components/AppStoreButton";
 import { DemoVideo } from "@/components/DemoVideo";
 import { Features } from "@/components/Features";
 import { Footer } from "@/components/Footer";
-import { HeroGrid } from "@/components/HeroGrid";
 import { HeroWidget } from "@/components/HeroWidget";
 import { Marquee } from "@/components/Marquee";
 import { Nav } from "@/components/Nav";
@@ -17,7 +16,7 @@ export default function Home() {
 
       <main id="main">
         {/* Hero */}
-        <section className="relative px-6 pt-16 sm:pt-24">
+        <section className="relative px-6 pb-4 pt-16 sm:pb-10 sm:pt-24">
           <div className="mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] lg:gap-20">
             <div>
               <Rise>
@@ -61,20 +60,6 @@ export default function Home() {
             </div>
 
             <HeroWidget />
-          </div>
-        </section>
-
-        {/* A year of squares, running the full width. */}
-        <section className="relative mt-24 sm:mt-32" aria-hidden="true">
-          <div className="mx-auto max-w-6xl px-6">
-            <div className="flex items-baseline justify-between gap-4">
-              <span className="label">A year of commits</span>
-              <div className="h-px flex-1 bg-hairline" />
-              <span className="label">365 days</span>
-            </div>
-          </div>
-          <div className="mt-5 overflow-hidden">
-            <HeroGrid className="mx-auto w-full max-w-6xl px-6" />
           </div>
         </section>
 

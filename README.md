@@ -40,7 +40,6 @@ Then open http://localhost:3000.
 - `Marquee` — the screenshot band. It is a real scroll container that also advances itself: hovering stops the drift so you can drag it with a mouse, swipe it on a touchscreen or scroll it with a trackpad. It wraps in both directions, so it never runs out either way, and it holds still under reduced motion.
 
   The repeat period is measured between two items in the DOM rather than taken from `scrollWidth / copies`. `scrollWidth` leaves out the gap after the last item, which would put every wrap one gap out of place.
-- `HeroGrid` — a full year of squares, 52 × 7. Cascades in, then lights one every 1.4s.
 - `SplitHeading` / `Rise` — the word-by-word headline reveal and its plainer sibling.
 - `Reveal` — wraps anything that should lift into place when it scrolls into view.
 - `AppStoreButton` — leans toward the cursor on hover.
