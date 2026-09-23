@@ -5,3 +5,6 @@ out/
 next-env.d.ts
 .DS_Store
 *.tsbuildinfo
+
+# Full-quality source media. Only the compressed versions in public/ are committed.
+media-source/

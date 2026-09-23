@@ -19,6 +19,9 @@ export function Nav() {
         </a>
 
         <div className="flex items-center gap-7">
+          <a href="#demo" className="label hidden transition-colors hover:text-ink sm:block">
+            Demo
+          </a>
           <a href="#features" className="label hidden transition-colors hover:text-ink sm:block">
             Features
           </a>

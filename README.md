@@ -32,6 +32,7 @@ Then open http://localhost:3000.
 - `app/page.tsx` — the page itself, section by section.
 - `app/globals.css` — theme tokens. The five greens are the same levels the widget draws.
 - `public/screenshots/` — the App Store screenshots, halved to 660 × 1434 for the web.
+- `public/pushed-demo.mp4` — the demo video, 1080 × 1920, encoded from the original with `ffmpeg -crf 26 -preset slow -movflags +faststart`. The 55MB original lives in the gitignored `media-source/` folder. `public/pushed-demo-poster.jpg` is the frame at 14.07s, where the widget overlay is on screen.
 
 ### Components
 
@@ -43,6 +44,7 @@ Then open http://localhost:3000.
 - `SplitHeading` / `Rise` — the word-by-word headline reveal and its plainer sibling.
 - `Reveal` — wraps anything that should lift into place when it scrolls into view.
 - `AppStoreButton` — leans toward the cursor on hover.
+- `DemoVideo` — the 43 second demo in a phone frame. `preload="none"` means the 7MB of video is not fetched until someone clicks play, and because the first play comes from a real click the browser lets it start with sound.
 - `Nav`, `Features`, `Footer`.
 
 Every animation checks `prefers-reduced-motion` and renders the page still if

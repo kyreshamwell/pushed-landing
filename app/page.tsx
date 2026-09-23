@@ -1,4 +1,5 @@
 import { AppStoreButton } from "@/components/AppStoreButton";
+import { DemoVideo } from "@/components/DemoVideo";
 import { Features } from "@/components/Features";
 import { Footer } from "@/components/Footer";
 import { HeroGrid } from "@/components/HeroGrid";
@@ -74,6 +75,45 @@ export default function Home() {
           </div>
           <div className="mt-5 overflow-hidden">
             <HeroGrid className="mx-auto w-full max-w-6xl px-6" />
+          </div>
+        </section>
+
+        {/* The demo video */}
+        <section
+          id="demo"
+          aria-labelledby="demo-heading"
+          className="mt-24 scroll-mt-16 px-6 sm:mt-32"
+        >
+          <div className="mx-auto max-w-6xl">
+            <Reveal>
+              <div className="flex items-baseline justify-between gap-4">
+                <h2 id="demo-heading" className="label">
+                  Demo
+                </h2>
+                <div className="h-px flex-1 bg-hairline" />
+                <span className="label">43 seconds</span>
+              </div>
+            </Reveal>
+
+            <div className="mt-14 grid items-center gap-12 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] lg:gap-20">
+              <Reveal>
+                <DemoVideo />
+              </Reveal>
+
+              <Reveal delay={0.1}>
+                <p className="text-balance font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
+                  Setup, the styles, and the widget on a real Home Screen.
+                </p>
+                <p className="mt-6 max-w-md text-pretty leading-relaxed text-ink-dim">
+                  The whole thing start to finish, including connecting your
+                  GitHub account and picking a look. This is the video I posted
+                  to TikTok and Instagram when {"Pushed"} launched.
+                </p>
+                <p className="mt-6 max-w-md text-pretty text-sm leading-relaxed text-ink-faint">
+                  Plays with sound.
+                </p>
+              </Reveal>
+            </div>
           </div>
         </section>
 
