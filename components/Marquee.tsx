@@ -6,99 +6,144 @@ import { useCallback, useEffect, useRef } from "react";
 import { screenshots } from "@/lib/site";
 
 /** How fast the band drifts on its own, in pixels per second. */
-const SPEED = 26;
-/** Three copies of the list, so there is a full copy of room either way. */
+const SPEED = 58;
+/** Copies of the list in the track, so there is room to move either way. */
 const COPIES = 3;
+/** How quickly a flick decays after you let go, per 60fps frame. */
+const FRICTION = 0.94;
 
 /**
- * A band of screenshots that drifts by on its own and is also a real scroll
- * container: hovering stops the drift, and you can then drag it with a mouse,
- * swipe it on a touchscreen or scroll it with a trackpad. It wraps in both
- * directions, so it never runs out either way.
+ * A band of screenshots that drifts by on its own and can also be grabbed.
+ *
+ * The position is a float driven onto a transform rather than onto
+ * scrollLeft: browsers snap scroll offsets to whole device pixels, so a slow
+ * drift lands as 0px, 1px, 0px, 1px per frame and visibly stutters.
+ * Transforms move at sub-pixel precision on the compositor, so the same speed
+ * reads as smooth.
  */
 export function Marquee() {
-  const scroller = useRef<HTMLDivElement>(null);
-  const paused = useRef(false);
-  const dragging = useRef(false);
-  const dragStart = useRef({ x: 0, scroll: 0 });
+  const frame = useRef<HTMLDivElement>(null);
+  const track = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
 
-  /**
-   * The distance from one copy of the list to the next. Measured between two
-   * items rather than taken from scrollWidth, which leaves out the gap after
-   * the last item and would put every wrap one gap out of place.
-   */
+  /** Current translate, always kept in (-period, 0]. */
+  const offset = useRef(0);
+  /** Distance from one copy of the list to the next. */
   const period = useRef(0);
+  const paused = useRef(false);
+  const dragging = useRef(false);
+  const dragFrom = useRef({ pointer: 0, offset: 0 });
+  /** Pixels per second carried over from a flick. */
+  const velocity = useRef(0);
+  const lastMove = useRef({ x: 0, at: 0 });
 
+  /**
+   * Measured between two matching items rather than taken from the track's
+   * width, which leaves out the gap after the last item and would put every
+   * wrap one gap out of place.
+   */
   const measure = useCallback(() => {
-    const el = scroller.current;
-    const first = el?.children[0] as HTMLElement | undefined;
-    const second = el?.children[screenshots.length] as HTMLElement | undefined;
-    if (first && second) period.current = second.offsetLeft - first.offsetLeft;
+    const kids = track.current?.children;
+    const first = kids?.[0] as HTMLElement | undefined;
+    const next = kids?.[screenshots.length] as HTMLElement | undefined;
+    if (first && next) period.current = next.offsetLeft - first.offsetLeft;
   }, []);
 
-  /** Keep the scroll position inside the middle copy. */
+  /** Fold the offset back into one period, however far it has travelled. */
   const wrap = useCallback(() => {
-    const el = scroller.current;
-    const copy = period.current;
-    if (!el || copy <= 0) return;
-    if (el.scrollLeft >= copy * 2) el.scrollLeft -= copy;
-    else if (el.scrollLeft <= 0) el.scrollLeft += copy;
+    const span = period.current;
+    if (span <= 0) return;
+    let next = offset.current % span;
+    if (next > 0) next -= span;
+    offset.current = next;
   }, []);
 
-  // Start in the middle copy so there is room to scroll backwards too.
+  const paint = useCallback(() => {
+    if (track.current) {
+      track.current.style.transform = `translate3d(${offset.current}px, 0, 0)`;
+    }
+  }, []);
+
   useEffect(() => {
     measure();
-    const el = scroller.current;
-    if (el) el.scrollLeft = period.current;
-
+    paint();
     // Item widths change at the sm breakpoint, so the period does too.
     const onResize = () => {
-      const before = period.current;
       measure();
-      if (el && before > 0 && period.current > 0) {
-        el.scrollLeft = (el.scrollLeft / before) * period.current;
-      }
+      wrap();
+      paint();
     };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, [measure]);
+  }, [measure, paint, wrap]);
 
   useAnimationFrame((_, delta) => {
-    const el = scroller.current;
-    if (!el || reduced || paused.current || dragging.current) return;
-    // delta can spike after a background tab wakes up; cap it so the band
-    // does not lurch forward.
-    el.scrollLeft += (SPEED * Math.min(delta, 50)) / 1000;
+    if (reduced || dragging.current) return;
+    // delta spikes when a background tab wakes up; cap it so the band does
+    // not lurch forward.
+    const step = Math.min(delta, 50);
+    const seconds = step / 1000;
+
+    if (Math.abs(velocity.current) > 2) {
+      offset.current += velocity.current * seconds;
+      velocity.current *= Math.pow(FRICTION, step / 16.67);
+    } else if (!paused.current) {
+      velocity.current = 0;
+      offset.current -= SPEED * seconds;
+    } else {
+      return;
+    }
+
     wrap();
+    paint();
   });
 
   function onPointerDown(event: React.PointerEvent<HTMLDivElement>) {
-    // Touch and pen already scroll this natively; only take over for a mouse.
-    if (event.pointerType !== "mouse" || !scroller.current) return;
     dragging.current = true;
-    dragStart.current = { x: event.clientX, scroll: scroller.current.scrollLeft };
-    scroller.current.setPointerCapture(event.pointerId);
+    velocity.current = 0;
+    dragFrom.current = { pointer: event.clientX, offset: offset.current };
+    lastMove.current = { x: event.clientX, at: performance.now() };
+    frame.current?.setPointerCapture(event.pointerId);
   }
 
   function onPointerMove(event: React.PointerEvent<HTMLDivElement>) {
-    if (!dragging.current || !scroller.current) return;
-    scroller.current.scrollLeft =
-      dragStart.current.scroll - (event.clientX - dragStart.current.x);
+    if (!dragging.current) return;
+    offset.current =
+      dragFrom.current.offset + (event.clientX - dragFrom.current.pointer);
+
+    const now = performance.now();
+    const elapsed = now - lastMove.current.at;
+    if (elapsed > 0) {
+      velocity.current = ((event.clientX - lastMove.current.x) / elapsed) * 1000;
+    }
+    lastMove.current = { x: event.clientX, at: now };
+
     wrap();
+    paint();
   }
 
   function endDrag(event: React.PointerEvent<HTMLDivElement>) {
-    if (!dragging.current || !scroller.current) return;
+    if (!dragging.current) return;
     dragging.current = false;
-    scroller.current.releasePointerCapture(event.pointerId);
+    // A flick that ended a moment ago should not keep throwing the band.
+    if (performance.now() - lastMove.current.at > 90) velocity.current = 0;
+    frame.current?.releasePointerCapture(event.pointerId);
   }
 
-  const track = Array.from({ length: COPIES }, () => screenshots).flat();
+  /** Sideways trackpad swipes, which never become pointer events. */
+  function onWheel(event: React.WheelEvent<HTMLDivElement>) {
+    if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+    velocity.current = 0;
+    offset.current -= event.deltaX;
+    wrap();
+    paint();
+  }
+
+  const items = Array.from({ length: COPIES }, () => screenshots).flat();
 
   return (
     <div
-      ref={scroller}
+      ref={frame}
       onPointerEnter={() => (paused.current = true)}
       onPointerLeave={(event) => {
         paused.current = false;
@@ -108,32 +153,39 @@ export function Marquee() {
       onPointerMove={onPointerMove}
       onPointerUp={endDrag}
       onPointerCancel={endDrag}
-      onScroll={wrap}
-      className="flex cursor-grab gap-4 overflow-x-auto overscroll-x-contain select-none active:cursor-grabbing sm:gap-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      onWheel={onWheel}
+      className="cursor-grab overflow-hidden select-none active:cursor-grabbing"
       style={{
+        // Vertical swipes stay with the page; sideways ones come to us.
+        touchAction: "pan-y",
         maskImage:
           "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
         WebkitMaskImage:
           "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
       }}
     >
-      {track.map((shot, i) => (
-        <div
-          key={`${shot.src}-${i}`}
-          className="w-[190px] shrink-0 overflow-hidden border border-edge bg-surface-raised sm:w-[250px]"
-        >
-          <Image
-            src={shot.src}
-            alt={i < screenshots.length ? shot.alt : ""}
-            aria-hidden={i >= screenshots.length}
-            width={660}
-            height={1434}
-            sizes="(max-width: 640px) 190px, 250px"
-            draggable={false}
-            className="pointer-events-none h-auto w-full"
-          />
-        </div>
-      ))}
+      <div
+        ref={track}
+        className="flex w-max gap-4 will-change-transform sm:gap-5"
+      >
+        {items.map((shot, i) => (
+          <div
+            key={`${shot.src}-${i}`}
+            className="w-[190px] shrink-0 overflow-hidden border border-edge bg-surface-raised sm:w-[250px]"
+          >
+            <Image
+              src={shot.src}
+              alt={i < screenshots.length ? shot.alt : ""}
+              aria-hidden={i >= screenshots.length}
+              width={660}
+              height={1434}
+              sizes="(max-width: 640px) 190px, 250px"
+              draggable={false}
+              className="pointer-events-none h-auto w-full"
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
