@@ -28,7 +28,7 @@ export type Screenshot = {
 export const screenshots: Screenshot[] = [
   {
     src: "/screenshots/02-six-styles.png",
-    alt: "The six built-in widget styles side by side",
+    alt: "The built-in widget styles and a custom one, side by side",
   },
   {
     src: "/screenshots/03-two-layouts.png",
@@ -63,8 +63,8 @@ export const features: Feature[] = [
     body: "Your full contribution grid in small, medium or large. Pick a range of one month, three months, six months or a full year. It refreshes itself in the background, so you never have to open the app to see where you stand.",
   },
   {
-    title: "Six styles, two layouts, or design your own",
-    body: "Classic, Aurora, Ember, Terminal and Paper, each with its own palette, cell shape and type. Every widget keeps its own style, so different looks can sit side by side. Custom lets you set the background, square color, shape and glow yourself.",
+    title: "Pick a look, or make your own",
+    body: "Start from a built-in style like Classic, Terminal or Paper, each with its own palette, cell shape and type, or design one from scratch. Show the full graph or lead with a big streak number. Every widget keeps its own settings, so different looks can sit side by side.",
   },
   {
     title: "Reminders that pay attention",
