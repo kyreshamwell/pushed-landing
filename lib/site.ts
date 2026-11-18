@@ -8,8 +8,8 @@ export const site = {
   description:
     "Pushed puts your GitHub contribution graph on your Home Screen, so the streak you are building is the thing you see every time you pick up your phone.",
   appStoreUrl: "https://apps.apple.com/us/app/pushed-commit-widget/id6788594258",
-  repoUrl: "https://github.com/kyreshamwell/git-widget",
-  privacyUrl: "https://github.com/kyreshamwell/git-widget/blob/main/PRIVACY.md",
+  repoUrl: "https://github.com/kyreshamwell/pushed",
+  privacyUrl: "https://github.com/kyreshamwell/pushed/blob/main/PRIVACY.md",
   developer: "Kyre Shamwell",
   price: "Free",
   requires: "iOS 17.0 or later",
