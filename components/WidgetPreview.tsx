@@ -132,7 +132,7 @@ export function WidgetPreview({
                 animate={{ color: theme.secondaryText }}
                 transition={{ duration: 0.4 }}
               >
-                committed today
+                Pushed today
               </motion.span>
             </div>
           </div>
@@ -156,7 +156,7 @@ export function WidgetPreview({
                 animate={{ color: theme.secondaryText }}
                 transition={{ duration: 0.4 }}
               >
-                committed today
+                Pushed today
               </motion.span>
             </div>
           </div>

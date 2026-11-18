@@ -88,6 +88,6 @@ export const features: Feature[] = [
   },
   {
     title: "No servers, no account, no tracking",
-    body: "Pushed has no backend. Your access token lives in the iOS Keychain and is read-only. The one request the app makes goes to GitHub, for your own contribution data. Nothing is collected and nothing is sent anywhere else.",
+    body: "Pushed has no backend. Your access token lives in the iOS Keychain and is read-only. The app only talks to GitHub, and only for your own contribution data. Nothing is collected and nothing is sent anywhere else.",
   },
 ];

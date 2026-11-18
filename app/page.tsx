@@ -156,8 +156,8 @@ export default function Home() {
                 </p>
                 <p className="mt-6 max-w-md text-pretty leading-relaxed text-ink-dim">
                   {site.name} has no backend, no analytics and no account. Your
-                  read-only token lives in the iOS Keychain, and the app makes
-                  exactly one request.
+                  read-only token lives in the iOS Keychain, and the app only ever
+                  talks to GitHub.
                 </p>
                 <a
                   href={site.privacyUrl}
