@@ -114,8 +114,8 @@ export default function Home() {
                 <span className="label">Drag to browse</span>
               </div>
               <p className="mt-6 max-w-lg text-pretty font-display text-2xl font-medium leading-snug tracking-tight sm:text-3xl">
-                Your graph, your streak, your totals for the year, and reminders
-                you set yourself.
+                Six looks, a symbol for every day, rest days that protect your
+                streak, and a Styles screen that is all yours.
               </p>
             </Reveal>
           </div>
@@ -132,7 +132,7 @@ export default function Home() {
               <div className="flex items-baseline justify-between gap-4">
                 <h2 className="label">What it does</h2>
                 <div className="h-px flex-1 bg-hairline" />
-                <span className="label">04</span>
+                <span className="label">07</span>
               </div>
             </Reveal>
             <Features />

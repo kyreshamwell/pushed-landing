@@ -27,7 +27,7 @@ Then open http://localhost:3000.
 ## Where things live
 
 - `lib/site.ts` — all the copy, the App Store link and the screenshot list. Nearly every text change you want to make is in this one file.
-- `lib/widgetStyles.ts` — the five widget looks, ported from `Shared/WidgetStyle.swift` in the app. Colors, cell shape, type and glow all come from here, so the live preview draws what the real widget draws. If you add a style to the app, add it here too.
+- `lib/widgetStyles.ts` — the five widget looks (Marks is not in the hero preview yet), ported from `Shared/WidgetStyle.swift` in the app. Colors, cell shape, type and glow all come from here, so the live preview draws what the real widget draws. If you add a style to the app, add it here too.
 - `lib/grid.ts` — the seeded contribution pattern shared by the hero and the previews. Seeded, not random, so the server and the browser agree.
 - `app/page.tsx` — the page itself, section by section.
 - `app/globals.css` — theme tokens. The five greens are the same levels the widget draws.

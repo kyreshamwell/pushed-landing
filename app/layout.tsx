@@ -25,7 +25,7 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.siteUrl),
-  title: `${site.name} — ${site.tagline}`,
+  title: `${site.name}: ${site.tagline}`,
   description: site.description,
   applicationName: site.name,
   authors: [{ name: site.developer }],
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     type: "website",
-    title: `${site.name} — ${site.tagline}`,
+    title: `${site.name}: ${site.tagline}`,
     description: site.description,
     url: site.siteUrl,
     siteName: site.name,
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — ${site.tagline}`,
+    title: `${site.name}: ${site.tagline}`,
     description: site.description,
     images: ["/icon.png"],
   },
