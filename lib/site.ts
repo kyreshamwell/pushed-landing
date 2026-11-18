@@ -72,7 +72,7 @@ export const features: Feature[] = [
   },
   {
     title: "Make it yours, and let it rotate",
-    body: "One Styles screen to preview every look, circle the ones you love and let them take turns each day. Change the shape, color, glow and font of any look, then save it as your own. Keep as many as you like.",
+    body: "One Styles screen to preview every look, tap the ones you love and they take turns each day. Change the shape, color, glow and font of any look, then save it as your own.",
   },
   {
     title: "Your streak, and every year behind it",
