@@ -17,7 +17,7 @@ export const site = {
   // PLACEHOLDER. Not a link on the page, but Open Graph and Twitter card
   // images resolve against it, so link previews stay broken until this is the
   // domain the site actually deploys to.
-  siteUrl: "https://pushedapp.vercel.app",
+  siteUrl: "https://pushed-landing.vercel.app",
 } as const;
 
 export type Screenshot = {
