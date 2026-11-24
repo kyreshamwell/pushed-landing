@@ -35,24 +35,32 @@ export const screenshots: Screenshot[] = [
     alt: "The six looks: Classic, Aurora, Ember, Terminal, Paper and Marks",
   },
   {
-    src: "/screenshots/1.3-05-every-day-marked.png",
-    alt: "The Marks look, with a symbol for every day: a dot, a cross, F and R",
+    src: "/screenshots/1.3-03-every-day-of-your-streak.png",
+    alt: "Your streak on a calendar, with rest days, freezes and today marked",
   },
   {
-    src: "/screenshots/1.3-03-new-look-every-day.png",
-    alt: "The Styles screen with a few looks circled to take turns each day",
+    src: "/screenshots/1.3-04-your-year.png",
+    alt: "Your year month by month, with totals and your longest run",
   },
   {
-    src: "/screenshots/1.3-04-make-it-yours.png",
+    src: "/screenshots/1.3-05-new-look-every-day.png",
+    alt: "The Look picker with a few looks chosen to take turns each day",
+  },
+  {
+    src: "/screenshots/1.3-06-make-it-yours.png",
     alt: "Customizing a look with shape and color controls, ready to save",
   },
   {
-    src: "/screenshots/1.3-06-rest-days.png",
+    src: "/screenshots/1.3-07-every-day-marked.png",
+    alt: "The Marks look, with a symbol for every day: a dot, a cross, F and R",
+  },
+  {
+    src: "/screenshots/1.3-08-rest-days.png",
     alt: "Rest days and the monthly freeze keeping a streak alive",
   },
   {
-    src: "/screenshots/1.3-07-at-a-glance.png",
-    alt: "The Pushed home screen with today, the streak and your looks",
+    src: "/screenshots/1.3-09-at-a-glance.png",
+    alt: "The Pushed home screen with today, the streak and your year",
   },
 ];
 

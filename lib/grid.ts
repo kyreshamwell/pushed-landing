@@ -19,11 +19,22 @@ function levelAt(col: number, row: number): number {
   return 4;
 }
 
-export type Cell = { col: number; row: number; level: number; index: number };
+/** A normal day, a rest day, or a day saved by a freeze. */
+export type DayKind = "day" | "rest" | "freeze";
+
+export type Cell = {
+  col: number;
+  row: number;
+  level: number;
+  kind: DayKind;
+  index: number;
+  today: boolean;
+};
 
 /**
- * Column-major cells, with the last `streak` days always lit so the grid
- * reads as a streak that is still running.
+ * Column-major cells, rows Sunday to Saturday. The last `streak` days are
+ * the running streak: lit, with Saturdays as rest days and one freeze, the
+ * way the demo account in the app looks. The last cell is today.
  */
 export function buildGrid(cols: number, rows: number, streak = 0): Cell[] {
   const total = cols * rows;
@@ -32,8 +43,17 @@ export function buildGrid(cols: number, rows: number, streak = 0): Cell[] {
     const row = index % rows;
     const fromEnd = total - 1 - index;
     const base = levelAt(col, row);
-    const level =
-      fromEnd < streak ? (fromEnd === 0 ? 4 : Math.max(2, base)) : base;
-    return { col, row, level, index };
+    let level = base;
+    let kind: DayKind = "day";
+    if (fromEnd < streak) {
+      if (row === rows - 1 && fromEnd > 0) {
+        kind = "rest";
+      } else if (fromEnd === 16) {
+        kind = "freeze";
+      } else {
+        level = fromEnd === 0 ? 3 : Math.max(1, base);
+      }
+    }
+    return { col, row, level, kind, index, today: fromEnd === 0 };
   });
 }

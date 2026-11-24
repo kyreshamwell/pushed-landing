@@ -15,6 +15,7 @@ import { themeById, widgetThemes, type LayoutId, type StyleId } from "@/lib/widg
 const layouts: { id: LayoutId; name: string }[] = [
   { id: "graph", name: "Graph" },
   { id: "streak", name: "Big streak" },
+  { id: "week", name: "This week" },
 ];
 
 const spring = { stiffness: 220, damping: 26, mass: 0.6 };
